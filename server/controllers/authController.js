@@ -1,5 +1,5 @@
-import User from "../models/User.js";
-import jwt from "jsonwebtoken";
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 // Generate JWT Token
 const generateToken = (res, userId) => {
@@ -69,6 +69,12 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+  res.cookie("jwt", "", { httpOnly: true, expires: new Date(0) });
+  res.json({ message: "Logged out successfully" });
+};
+
+
 // @desc Get user profile (protected route)
 // @route GET /api/auth/profile
 const getProfile = async (req, res) => {
@@ -82,4 +88,4 @@ const getProfile = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, getProfile };
+module.exports = { registerUser, loginUser, logoutUser ,getProfile };
